@@ -1,0 +1,6 @@
+@PlusOne.Api_HostAddress = http://localhost:5147
+
+GET {{PlusOne.Api_HostAddress}}/health
+Accept: application/json
+
+###
