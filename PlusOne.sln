@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlusOne.Api", "src\PlusOne.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlusOne.Web", "src\PlusOne.Web\PlusOne.Web.csproj", "{E87169BB-1F06-4543-B0EF-792D8A7C1D9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlusOne.Contracts", "src\PlusOne.Contracts\PlusOne.Contracts.csproj", "{F55ACC34-D649-455D-AFE1-E37BE2007276}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,18 @@ Global
 		{E87169BB-1F06-4543-B0EF-792D8A7C1D9E}.Release|x64.Build.0 = Release|Any CPU
 		{E87169BB-1F06-4543-B0EF-792D8A7C1D9E}.Release|x86.ActiveCfg = Release|Any CPU
 		{E87169BB-1F06-4543-B0EF-792D8A7C1D9E}.Release|x86.Build.0 = Release|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Debug|x64.Build.0 = Debug|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Debug|x86.Build.0 = Debug|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Release|x64.ActiveCfg = Debug|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Release|x64.Build.0 = Debug|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Release|x86.ActiveCfg = Debug|Any CPU
+		{F55ACC34-D649-455D-AFE1-E37BE2007276}.Release|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +64,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{37525E82-8E56-44F1-8EF4-32848D0B0149} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{E87169BB-1F06-4543-B0EF-792D8A7C1D9E} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{F55ACC34-D649-455D-AFE1-E37BE2007276} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal
