@@ -1,0 +1,37 @@
+<nav class="category-filter" aria-label="Фильтр по категории">
+    <button type="button"
+            class="category-filter__button @(SelectedCategory is null ? "is-selected" : null)"
+            aria-pressed="@(SelectedCategory is null)"
+            @onclick="() => SelectCategoryAsync(null)">
+        Все
+    </button>
+
+    @foreach (var category in UniqueCategories)
+    {
+        <button @key="category"
+                type="button"
+                class="category-filter__button @(SelectedCategory == category ? "is-selected" : null)"
+                aria-pressed="@(SelectedCategory == category)"
+                @onclick="() => SelectCategoryAsync(category)">
+            @category
+        </button>
+    }
+</nav>
+
+@code {
+    [Parameter]
+    public IReadOnlyCollection<string> Categories { get; set; } = [];
+
+    [Parameter]
+    public string? SelectedCategory { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> SelectedCategoryChanged { get; set; }
+
+    private IEnumerable<string> UniqueCategories =>
+        Categories.Where(category => !string.IsNullOrWhiteSpace(category))
+            .Distinct(StringComparer.OrdinalIgnoreCase);
+
+    private Task SelectCategoryAsync(string? category) =>
+        SelectedCategoryChanged.InvokeAsync(category);
+}

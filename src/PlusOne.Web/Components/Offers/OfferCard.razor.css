@@ -1,0 +1,101 @@
+.offer-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+    border: 1px solid #e7e9f0;
+    border-radius: 1.25rem;
+    background: #fff;
+    color: #171a2c;
+    box-shadow: 0 8px 28px rgb(23 26 44 / 5%);
+}
+
+.offer-card__topline,
+.offer-card__meta {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+}
+
+.offer-card__company {
+    overflow-wrap: anywhere;
+    font-size: .875rem;
+    font-weight: 650;
+}
+
+.offer-card__source,
+.offer-card__category {
+    flex: 0 0 auto;
+    padding: .35rem .65rem;
+    border-radius: 999px;
+    background: #f0f2f8;
+    color: #42465b;
+    font-size: .75rem;
+    line-height: 1.2;
+}
+
+.offer-card__source {
+    max-width: 50%;
+    overflow-wrap: anywhere;
+    background: #eff6d8;
+    color: #34420c;
+}
+
+.offer-card__title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.offer-card__description {
+    flex: 1;
+    margin: 0;
+    color: #5d6174;
+    line-height: 1.55;
+}
+
+.offer-card__meta {
+    align-items: flex-start;
+    color: #707487;
+    font-size: .8rem;
+}
+
+.offer-card__validity {
+    text-align: right;
+}
+
+.offer-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    align-self: flex-start;
+    color: #171a2c;
+    font-weight: 700;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .2em;
+}
+
+.offer-card__link:focus-visible {
+    outline: 3px solid #91b929;
+    outline-offset: 4px;
+}
+
+@media (max-width: 480px) {
+    .offer-card {
+        gap: .85rem;
+        padding: 1rem;
+    }
+
+    .offer-card__topline,
+    .offer-card__meta {
+        align-items: flex-start;
+    }
+
+    .offer-card__title {
+        font-size: 1.125rem;
+    }
+}

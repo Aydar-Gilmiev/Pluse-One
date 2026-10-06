@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1100" viewBox="0 0 1440 1100">
+  <rect width="1440" height="1100" fill="#f7f8fc"/>
+  <rect width="1440" height="76" fill="#ffffff"/>
+  <path d="M0 75.5H1440" stroke="#e8eaf1"/>
+  <text x="96" y="48" fill="#171a2c" font-family="Arial,sans-serif" font-size="25" font-weight="700">Plus One</text>
+  <text x="1138" y="47" fill="#171a2c" font-family="Arial,sans-serif" font-size="15" font-weight="600">Предложения</text>
+  <rect x="1292" y="18" width="52" height="40" rx="20" fill="#caff4a"/>
+  <text x="1318" y="43" text-anchor="middle" fill="#171a2c" font-family="Arial,sans-serif" font-size="14" font-weight="700">АЯ</text>
+
+  <text x="96" y="155" fill="#171a2c" font-family="Arial,sans-serif" font-size="40" font-weight="700">Возможности для студентов</text>
+  <text x="96" y="190" fill="#656a7d" font-family="Arial,sans-serif" font-size="17">Собрали специальные предложения в одном месте</text>
+
+  <rect x="96" y="224" width="1248" height="62" rx="18" fill="#ffffff" stroke="#e2e5ed"/>
+  <circle cx="125" cy="254" r="8" fill="none" stroke="#73788b" stroke-width="2"/>
+  <path d="m131 260 6 6" stroke="#73788b" stroke-width="2" stroke-linecap="round"/>
+  <text x="151" y="260" fill="#8b8fa0" font-family="Arial,sans-serif" font-size="15">Найти компанию или предложение</text>
+  <text x="1300" y="260" text-anchor="end" fill="#777c8e" font-family="Arial,sans-serif" font-size="14">⌘ K</text>
+
+  <text x="96" y="344" fill="#171a2c" font-family="Arial,sans-serif" font-size="15" font-weight="700">Категории</text>
+  <rect x="96" y="362" width="78" height="42" rx="21" fill="#caff4a"/>
+  <text x="135" y="388" text-anchor="middle" fill="#171a2c" font-family="Arial,sans-serif" font-size="14" font-weight="700">Все</text>
+  <rect x="184" y="362" width="93" height="42" rx="21" fill="#ffffff" stroke="#dfe2eb"/>
+  <text x="230" y="388" text-anchor="middle" fill="#34384c" font-family="Arial,sans-serif" font-size="14">Еда</text>
+  <rect x="287" y="362" width="120" height="42" rx="21" fill="#ffffff" stroke="#dfe2eb"/>
+  <text x="347" y="388" text-anchor="middle" fill="#34384c" font-family="Arial,sans-serif" font-size="14">Транспорт</text>
+  <rect x="417" y="362" width="116" height="42" rx="21" fill="#ffffff" stroke="#dfe2eb"/>
+  <text x="475" y="388" text-anchor="middle" fill="#34384c" font-family="Arial,sans-serif" font-size="14">Обучение</text>
+  <rect x="543" y="362" width="137" height="42" rx="21" fill="#ffffff" stroke="#dfe2eb"/>
+  <text x="611" y="388" text-anchor="middle" fill="#34384c" font-family="Arial,sans-serif" font-size="14">Развлечения</text>
+  <text x="1344" y="388" text-anchor="end" fill="#74798c" font-family="Arial,sans-serif" font-size="14">6 предложений</text>
+
+  <g font-family="Arial,sans-serif">
+    <rect x="96" y="438" width="394" height="260" rx="22" fill="#ffffff" stroke="#e7e9f0"/>
+    <text x="120" y="474" fill="#34384c" font-size="14" font-weight="600">Добрый хлеб</text>
+    <rect x="353" y="452" width="113" height="30" rx="15" fill="#eff6d8"/>
+    <text x="409" y="472" text-anchor="middle" fill="#34420c" font-size="12" font-weight="600">Партнёр</text>
+    <text x="120" y="523" fill="#171a2c" font-size="23" font-weight="700">Скидка на выпечку</text>
+    <text x="120" y="558" fill="#5d6174" font-size="15">Скидка 20% на свежую выпечку</text>
+    <text x="120" y="581" fill="#5d6174" font-size="15">после 18:00.</text>
+    <rect x="120" y="615" width="62" height="28" rx="14" fill="#f0f2f8"/>
+    <text x="151" y="634" text-anchor="middle" fill="#42465b" font-size="12">Еда</text>
+    <text x="466" y="634" text-anchor="end" fill="#74798c" font-size="12">До 31.12.2026</text>
+    <text x="120" y="675" fill="#171a2c" font-size="14" font-weight="700">Подробнее ↗</text>
+
+    <rect x="523" y="438" width="394" height="260" rx="22" fill="#ffffff" stroke="#e7e9f0"/>
+    <text x="547" y="474" fill="#34384c" font-size="14" font-weight="600">Городской транспорт</text>
+    <rect x="780" y="452" width="113" height="30" rx="15" fill="#eff6d8"/>
+    <text x="836" y="472" text-anchor="middle" fill="#34420c" font-size="12" font-weight="600">Партнёр</text>
+    <text x="547" y="523" fill="#171a2c" font-size="23" font-weight="700">Льготный проезд</text>
+    <text x="547" y="558" fill="#5d6174" font-size="15">Промокод на первую поездку</text>
+    <text x="547" y="581" fill="#5d6174" font-size="15">в городском транспорте.</text>
+    <rect x="547" y="615" width="104" height="28" rx="14" fill="#f0f2f8"/>
+    <text x="599" y="634" text-anchor="middle" fill="#42465b" font-size="12">Транспорт</text>
+    <text x="893" y="634" text-anchor="end" fill="#74798c" font-size="12">До 30.11.2026</text>
+    <text x="547" y="675" fill="#171a2c" font-size="14" font-weight="700">Подробнее ↗</text>
+
+    <rect x="950" y="438" width="394" height="260" rx="22" fill="#ffffff" stroke="#e7e9f0"/>
+    <text x="974" y="474" fill="#34384c" font-size="14" font-weight="600">Открытый университет</text>
+    <rect x="1190" y="452" width="130" height="30" rx="15" fill="#eef0f8"/>
+    <text x="1255" y="472" text-anchor="middle" fill="#42465b" font-size="12" font-weight="600">Открытый источник</text>
+    <text x="974" y="523" fill="#171a2c" font-size="23" font-weight="700">Бесплатный курс</text>
+    <text x="974" y="558" fill="#5d6174" font-size="15">Вводный курс по основам</text>
+    <text x="974" y="581" fill="#5d6174" font-size="15">программирования для начинающих.</text>
+    <rect x="974" y="615" width="104" height="28" rx="14" fill="#f0f2f8"/>
+    <text x="1026" y="634" text-anchor="middle" fill="#42465b" font-size="12">Обучение</text>
+    <text x="1320" y="634" text-anchor="end" fill="#74798c" font-size="12">Срок действия не указан</text>
+    <text x="974" y="675" fill="#171a2c" font-size="14" font-weight="700">Подробнее ↗</text>
+  </g>
+
+  <text x="96" y="772" fill="#171a2c" font-family="Arial,sans-serif" font-size="24" font-weight="700">Состояния страницы</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="96" y="800" width="394" height="220" rx="22" fill="#ffffff" stroke="#e7e9f0"/>
+    <text x="120" y="838" fill="#171a2c" font-size="13" font-weight="700">Загрузка</text>
+    <rect x="120" y="858" width="346" height="120" rx="16" fill="#f0f2f8"/>
+    <rect x="140" y="878" width="120" height="12" rx="6" fill="#dfe2eb"/>
+    <rect x="140" y="903" width="270" height="16" rx="8" fill="#dfe2eb"/>
+    <rect x="140" y="932" width="220" height="10" rx="5" fill="#e7e9f0"/>
+    <rect x="140" y="952" width="145" height="10" rx="5" fill="#e7e9f0"/>
+
+    <rect x="523" y="800" width="394" height="220" rx="22" fill="#ffffff" stroke="#e7e9f0"/>
+    <text x="547" y="838" fill="#171a2c" font-size="13" font-weight="700">Пустой список</text>
+    <circle cx="720" cy="900" r="22" fill="#f0f2f8"/>
+    <path d="M710 900h20M720 890v20" stroke="#777c8e" stroke-width="2" stroke-linecap="round"/>
+    <text x="720" y="946" text-anchor="middle" fill="#171a2c" font-size="17" font-weight="700">Предложений пока нет</text>
+    <text x="720" y="971" text-anchor="middle" fill="#74798c" font-size="13">Загляните позже — здесь появятся новые возможности</text>
+
+    <rect x="950" y="800" width="394" height="220" rx="22" fill="#ffffff" stroke="#e7e9f0"/>
+    <text x="974" y="838" fill="#171a2c" font-size="13" font-weight="700">Ошибка загрузки</text>
+    <circle cx="1147" cy="900" r="22" fill="#fff1ed"/>
+    <text x="1147" y="907" text-anchor="middle" fill="#a13b2c" font-size="20" font-weight="700">!</text>
+    <text x="1147" y="946" text-anchor="middle" fill="#171a2c" font-size="17" font-weight="700">Не удалось загрузить предложения</text>
+    <text x="1147" y="971" text-anchor="middle" fill="#74798c" font-size="13">Проверьте соединение и попробуйте ещё раз</text>
+    <rect x="1090" y="987" width="114" height="28" rx="14" fill="#171a2c"/>
+    <text x="1147" y="1006" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">Повторить</text>
+  </g>
+</svg>

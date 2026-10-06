@@ -1,0 +1,39 @@
+.category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .625rem;
+}
+
+.category-filter__button {
+    min-height: 2.75rem;
+    padding: .6rem 1rem;
+    border: 1px solid #dfe2eb;
+    border-radius: 999px;
+    background: #fff;
+    color: #34384c;
+    font: inherit;
+    cursor: pointer;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.category-filter__button:hover {
+    border-color: #a8c85e;
+}
+
+.category-filter__button.is-selected {
+    border-color: #caff4a;
+    background: #caff4a;
+    color: #171a2c;
+    font-weight: 700;
+}
+
+.category-filter__button:focus-visible {
+    outline: 3px solid #91b929;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .category-filter__button {
+        transition: none;
+    }
+}

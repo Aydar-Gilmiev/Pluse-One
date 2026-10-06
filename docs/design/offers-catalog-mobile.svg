@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <rect width="390" height="844" fill="#f7f8fc"/>
+  <rect width="390" height="68" fill="#ffffff"/>
+  <path d="M0 67.5H390" stroke="#e8eaf1"/>
+  <text x="20" y="42" fill="#171a2c" font-family="Arial,sans-serif" font-size="21" font-weight="700">Plus One</text>
+  <circle cx="351" cy="34" r="19" fill="#caff4a"/>
+  <text x="351" y="39" text-anchor="middle" fill="#171a2c" font-family="Arial,sans-serif" font-size="12" font-weight="700">АЯ</text>
+
+  <text x="20" y="119" fill="#171a2c" font-family="Arial,sans-serif" font-size="27" font-weight="700">Возможности</text>
+  <text x="20" y="150" fill="#171a2c" font-family="Arial,sans-serif" font-size="27" font-weight="700">для студентов</text>
+  <text x="20" y="179" fill="#656a7d" font-family="Arial,sans-serif" font-size="14">Специальные предложения в одном месте</text>
+
+  <rect x="20" y="204" width="350" height="52" rx="16" fill="#ffffff" stroke="#e2e5ed"/>
+  <circle cx="43" cy="228" r="7" fill="none" stroke="#73788b" stroke-width="2"/>
+  <path d="m48 233 5 5" stroke="#73788b" stroke-width="2" stroke-linecap="round"/>
+  <text x="65" y="233" fill="#8b8fa0" font-family="Arial,sans-serif" font-size="13">Найти предложение</text>
+
+  <text x="20" y="292" fill="#171a2c" font-family="Arial,sans-serif" font-size="14" font-weight="700">Категории</text>
+  <rect x="20" y="307" width="66" height="38" rx="19" fill="#caff4a"/>
+  <text x="53" y="331" text-anchor="middle" fill="#171a2c" font-family="Arial,sans-serif" font-size="13" font-weight="700">Все</text>
+  <rect x="96" y="307" width="75" height="38" rx="19" fill="#ffffff" stroke="#dfe2eb"/>
+  <text x="133" y="331" text-anchor="middle" fill="#34384c" font-family="Arial,sans-serif" font-size="13">Еда</text>
+  <rect x="181" y="307" width="115" height="38" rx="19" fill="#ffffff" stroke="#dfe2eb"/>
+  <text x="238" y="331" text-anchor="middle" fill="#34384c" font-family="Arial,sans-serif" font-size="13">Транспорт</text>
+
+  <g font-family="Arial,sans-serif">
+    <rect x="20" y="367" width="350" height="216" rx="20" fill="#ffffff" stroke="#e7e9f0"/>
+    <text x="40" y="399" fill="#34384c" font-size="13" font-weight="600">Добрый хлеб</text>
+    <rect x="244" y="380" width="106" height="27" rx="13.5" fill="#eff6d8"/>
+    <text x="297" y="398" text-anchor="middle" fill="#34420c" font-size="11" font-weight="600">Партнёр</text>
+    <text x="40" y="440" fill="#171a2c" font-size="20" font-weight="700">Скидка на выпечку</text>
+    <text x="40" y="469" fill="#5d6174" font-size="14">Скидка 20% на свежую выпечку</text>
+    <text x="40" y="490" fill="#5d6174" font-size="14">после 18:00.</text>
+    <rect x="40" y="513" width="56" height="25" rx="12.5" fill="#f0f2f8"/>
+    <text x="68" y="530" text-anchor="middle" fill="#42465b" font-size="11">Еда</text>
+    <text x="350" y="530" text-anchor="end" fill="#74798c" font-size="11">До 31.12.2026</text>
+    <text x="40" y="563" fill="#171a2c" font-size="13" font-weight="700">Подробнее ↗</text>
+
+    <rect x="20" y="601" width="350" height="216" rx="20" fill="#ffffff" stroke="#e7e9f0"/>
+    <text x="40" y="633" fill="#34384c" font-size="13" font-weight="600">Открытый университет</text>
+    <rect x="221" y="614" width="129" height="27" rx="13.5" fill="#eef0f8"/>
+    <text x="285" y="632" text-anchor="middle" fill="#42465b" font-size="11" font-weight="600">Открытый источник</text>
+    <text x="40" y="674" fill="#171a2c" font-size="20" font-weight="700">Бесплатный курс</text>
+    <text x="40" y="703" fill="#5d6174" font-size="14">Вводный курс для начинающих</text>
+    <text x="40" y="724" fill="#5d6174" font-size="14">по основам программирования.</text>
+    <rect x="40" y="747" width="88" height="25" rx="12.5" fill="#f0f2f8"/>
+    <text x="84" y="764" text-anchor="middle" fill="#42465b" font-size="11">Обучение</text>
+    <text x="350" y="764" text-anchor="end" fill="#74798c" font-size="10">Срок не указан</text>
+    <text x="40" y="797" fill="#171a2c" font-size="13" font-weight="700">Подробнее ↗</text>
+  </g>
+</svg>

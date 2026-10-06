@@ -1,0 +1,32 @@
+<article class="offer-card">
+    <div class="offer-card__topline">
+        <span class="offer-card__company">@Offer.CompanyName</span>
+        <span class="offer-card__source">@SourceLabel</span>
+    </div>
+
+    <h2 class="offer-card__title">@Offer.Title</h2>
+    <p class="offer-card__description">@Offer.Description</p>
+
+    <div class="offer-card__meta">
+        <span class="offer-card__category">@Offer.Category</span>
+        <span class="offer-card__validity">
+            @(Offer.ValidUntil?.ToString("dd.MM.yyyy") ?? "Срок действия не указан")
+        </span>
+    </div>
+
+    <a class="offer-card__link" href="@Offer.SourceUrl" target="_blank" rel="noopener noreferrer">
+        Подробнее <span aria-hidden="true">↗</span>
+    </a>
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public OfferDto Offer { get; set; } = default!;
+
+    private string SourceLabel => Offer.SourceType switch
+    {
+        OfferSourceType.Partner => "Партнёр",
+        OfferSourceType.OpenSource => "Открытый источник",
+        _ => "Источник не указан"
+    };
+}
