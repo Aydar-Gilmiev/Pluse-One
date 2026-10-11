@@ -1,0 +1,232 @@
+.offers-page {
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: .5rem 0 3rem;
+    color: #171a2c;
+}
+
+.offers-page__title {
+    margin: 0;
+    font-size: clamp(1.6875rem, 1.2rem + 2vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
+
+.offers-page__subtitle {
+    margin: .625rem 0 0;
+    color: #656a7d;
+    font-size: 1.0625rem;
+    line-height: 1.4;
+}
+
+.offers-page__status {
+    margin: 2.25rem 0 0;
+    color: #656a7d;
+    font-size: .9375rem;
+}
+
+.offers-page__toolbar {
+    margin-top: 2.25rem;
+}
+
+.offers-page__label {
+    margin: 0 0 .875rem;
+    font-size: .9375rem;
+    font-weight: 700;
+}
+
+.offers-page__filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+}
+
+.offers-page__count {
+    flex: 0 0 auto;
+    margin: 0;
+    color: #656a7d;
+    font-size: .875rem;
+    white-space: nowrap;
+}
+
+.offers-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.offers-page__status + .offers-page__grid {
+    margin-top: 1rem;
+}
+
+.offer-skeleton {
+    display: flex;
+    min-height: 13.5rem;
+    flex-direction: column;
+    gap: .875rem;
+    padding: 1.25rem;
+    border: 1px solid #e7e9f0;
+    border-radius: 1.25rem;
+    background: #fff;
+    animation: offer-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.offer-skeleton__line {
+    display: block;
+    height: .75rem;
+    border-radius: 999px;
+    background: #e7e9f0;
+}
+
+.offer-skeleton__line--company {
+    width: 38%;
+    background: #dfe2eb;
+}
+
+.offer-skeleton__line--title {
+    width: 78%;
+    height: 1.25rem;
+    margin-top: .375rem;
+    background: #dfe2eb;
+}
+
+.offer-skeleton__line--text {
+    width: 92%;
+}
+
+.offer-skeleton__line--text-short {
+    width: 60%;
+}
+
+.offer-skeleton__line--tag {
+    width: 5rem;
+    height: 1.5rem;
+    margin-top: auto;
+    background: #f0f2f8;
+}
+
+@keyframes offer-skeleton-pulse {
+    50% {
+        opacity: .55;
+    }
+}
+
+.offers-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 3rem 1.5rem;
+    border: 1px solid #e7e9f0;
+    border-radius: 1.375rem;
+    background: #fff;
+    text-align: center;
+}
+
+.offers-state__icon {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: 1rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #f0f2f8;
+    color: #777c8e;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.offers-state--error .offers-state__icon {
+    background: #fff1ed;
+    color: #a13b2c;
+}
+
+.offers-state__title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.offers-state__text {
+    margin: .5rem 0 0;
+    color: #656a7d;
+    font-size: .875rem;
+    line-height: 1.45;
+}
+
+.offers-state__action {
+    min-height: 2.75rem;
+    margin-top: 1.25rem;
+    padding: .6rem 1.5rem;
+    border: 0;
+    border-radius: 999px;
+    background: #171a2c;
+    color: #fff;
+    font: inherit;
+    font-size: .875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 120ms ease;
+}
+
+.offers-state__action:hover {
+    background: #2b2f47;
+}
+
+.offers-state__action:focus-visible {
+    outline: 3px solid #91b929;
+    outline-offset: 3px;
+}
+
+@media (max-width: 640.98px) {
+    .offers-page {
+        padding-top: .25rem;
+    }
+
+    .offers-page__subtitle {
+        font-size: .875rem;
+    }
+
+    .offers-page__toolbar {
+        margin-top: 1.75rem;
+    }
+
+    .offers-page__label {
+        font-size: .875rem;
+    }
+
+    /* На узком экране счётчик не показываем, но оставляем его для скринридеров. */
+    .offers-page__count {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .offers-page__grid {
+        gap: 1.125rem;
+        margin-top: 1.375rem;
+    }
+
+    .offers-state {
+        margin-top: 1.375rem;
+        padding: 2.25rem 1.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .offer-skeleton {
+        animation: none;
+    }
+
+    .offers-state__action {
+        transition: none;
+    }
+}

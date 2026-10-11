@@ -1,0 +1,167 @@
+@page "/offers"
+@using System.Text.Json
+@implements IDisposable
+@inject OffersApiClient OffersApi
+
+<PageTitle>Предложения</PageTitle>
+
+<section class="offers-page">
+    <header class="offers-page__header">
+        <h1 class="offers-page__title">Возможности для студентов</h1>
+        <p class="offers-page__subtitle">Собрали специальные предложения в одном месте</p>
+    </header>
+
+    @if (state == LoadState.Loading)
+    {
+        <p class="offers-page__status" role="status">Загружаем предложения…</p>
+
+        <div class="offers-page__grid" aria-hidden="true">
+            @for (var i = 0; i < SkeletonCardCount; i++)
+            {
+                <div class="offer-skeleton">
+                    <span class="offer-skeleton__line offer-skeleton__line--company"></span>
+                    <span class="offer-skeleton__line offer-skeleton__line--title"></span>
+                    <span class="offer-skeleton__line offer-skeleton__line--text"></span>
+                    <span class="offer-skeleton__line offer-skeleton__line--text-short"></span>
+                    <span class="offer-skeleton__line offer-skeleton__line--tag"></span>
+                </div>
+            }
+        </div>
+    }
+    else if (state == LoadState.Failed)
+    {
+        <div class="offers-state offers-state--error" role="alert">
+            <span class="offers-state__icon" aria-hidden="true">!</span>
+            <h2 class="offers-state__title">Не удалось загрузить предложения</h2>
+            <p class="offers-state__text">Проверьте соединение и попробуйте ещё раз</p>
+            <button type="button" class="offers-state__action" @onclick="LoadOffersAsync">
+                Повторить
+            </button>
+        </div>
+    }
+    else if (offers.Count == 0)
+    {
+        <div class="offers-state">
+            <span class="offers-state__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 6v12M6 12h12" />
+                </svg>
+            </span>
+            <h2 class="offers-state__title">Предложений пока нет</h2>
+            <p class="offers-state__text">Загляните позже — здесь появятся новые возможности</p>
+        </div>
+    }
+    else
+    {
+        var visibleOffers = GetVisibleOffers();
+
+        <div class="offers-page__toolbar">
+            <p class="offers-page__label">Категории</p>
+            <div class="offers-page__filter-row">
+                <CategoryFilter Categories="categories" @bind-SelectedCategory="selectedCategory" />
+                <p class="offers-page__count" aria-live="polite">@FormatOffersCount(visibleOffers.Count)</p>
+            </div>
+        </div>
+
+        if (visibleOffers.Count == 0)
+        {
+            <div class="offers-state">
+                <p class="offers-state__title">В категории “@(selectedCategory)” предложений пока нет</p>
+            </div>
+        }
+        else
+        {
+            <div class="offers-page__grid">
+                @foreach (var offer in visibleOffers)
+                {
+                    <OfferCard @key="offer.Id" Offer="offer" />
+                }
+            </div>
+        }
+    }
+</section>
+
+@code {
+    private const int SkeletonCardCount = 3;
+
+    private readonly CancellationTokenSource disposalTokenSource = new();
+
+    private IReadOnlyList<OfferDto> offers = [];
+    private IReadOnlyList<string> categories = [];
+    private string? selectedCategory;
+    private LoadState state = LoadState.Loading;
+
+    protected override Task OnInitializedAsync() => LoadOffersAsync();
+
+    private async Task LoadOffersAsync()
+    {
+        state = LoadState.Loading;
+
+        try
+        {
+            offers = await OffersApi.GetAllAsync(disposalTokenSource.Token);
+            categories = offers
+                .Select(offer => offer.Category)
+                .Where(category => !string.IsNullOrWhiteSpace(category))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+            state = LoadState.Loaded;
+        }
+        catch (OperationCanceledException) when (disposalTokenSource.IsCancellationRequested)
+        {
+            // Пользователь ушёл со страницы — результат запроса уже не нужен.
+        }
+        catch (Exception exception) when (exception is HttpRequestException
+            or JsonException
+            or NotSupportedException
+            or OperationCanceledException)
+        {
+            offers = [];
+            categories = [];
+            state = LoadState.Failed;
+        }
+    }
+
+    // Фильтруем уже загруженный список: новый запрос к API при смене категории не нужен.
+    private IReadOnlyList<OfferDto> GetVisibleOffers()
+    {
+        if (selectedCategory is null)
+        {
+            return offers;
+        }
+
+        return offers
+            .Where(offer => string.Equals(offer.Category, selectedCategory, StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+    }
+
+    private static string FormatOffersCount(int count)
+    {
+        var lastTwoDigits = count % 100;
+        var lastDigit = count % 10;
+
+        var noun = lastTwoDigits is >= 11 and <= 14
+            ? "предложений"
+            : lastDigit switch
+            {
+                1 => "предложение",
+                >= 2 and <= 4 => "предложения",
+                _ => "предложений"
+            };
+
+        return $"{count} {noun}";
+    }
+
+    public void Dispose()
+    {
+        disposalTokenSource.Cancel();
+        disposalTokenSource.Dispose();
+    }
+
+    private enum LoadState
+    {
+        Loading,
+        Loaded,
+        Failed
+    }
+}
