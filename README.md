@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="src/PlusOne.Web/wwwroot/images/plus-one-logo.png" alt="Логотип Plus One" width="220" />
+</p>
+
 # Plus One
 
 Plus One — учебное веб-приложение, которое собирает в одном месте скидки, акции и специальные предложения для студентов.
@@ -10,14 +14,14 @@ Plus One — учебное веб-приложение, которое соби
 
 - публичная стартовая страница;
 - каталог предложений по адресу `/offers`;
+- отдельная внутренняя страница каждого предложения;
 - загрузка тестовых данных через ASP.NET Core Web API;
 - карточки с компанией, описанием, категорией, источником и сроком действия;
 - фильтрация предложений по категории без повторного запроса к API;
 - состояния загрузки, пустого списка и ошибки API;
 - адаптивный интерфейс для компьютеров и мобильных устройств;
 - Swagger для просмотра API в режиме разработки;
-- автоматические тесты endpoint каталога;
-- GitHub Actions для сборки и тестирования Pull Request в `main`.
+- GitHub Actions для сборки Pull Request в `main`.
 
 Данные хранятся в памяти и предназначены только для демонстрации MVP первого спринта.
 
@@ -26,7 +30,6 @@ Plus One — учебное веб-приложение, которое соби
 - .NET 10;
 - ASP.NET Core Web API;
 - Blazor WebAssembly;
-- xUnit;
 - Swagger / OpenAPI;
 - GitHub Actions.
 
@@ -52,8 +55,6 @@ src/
 ├── PlusOne.Api/         # Web API, контроллеры и тестовое хранилище
 ├── PlusOne.Contracts/   # Общие DTO и перечисления
 └── PlusOne.Web/         # Blazor WebAssembly приложение
-tests/
-└── PlusOne.Api.Tests/   # Интеграционные тесты API
 docs/
 └── design/              # Макеты каталога
 ```
@@ -112,11 +113,7 @@ dotnet run --project src/PlusOne.Web --launch-profile http
 
 ## Проверка
 
-```bash
-dotnet test PlusOne.sln
-```
-
-Дополнительно можно проверить API вручную:
+API можно проверить вручную после запуска backend:
 
 ```bash
 curl http://localhost:5147/health

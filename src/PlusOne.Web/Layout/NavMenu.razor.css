@@ -1,6 +1,6 @@
 .top-row {
     display: flex;
-    min-height: 4.5rem;
+    min-height: 7rem;
     align-items: center;
     justify-content: space-between;
     padding: .875rem 1.25rem;
@@ -9,24 +9,15 @@
 .navbar-brand {
     display: inline-flex;
     align-items: center;
-    gap: .75rem;
-    color: #fff;
-    font-size: 1.125rem;
-    font-weight: 700;
-    letter-spacing: -.02em;
     text-decoration: none;
 }
 
-.brand-mark {
-    display: grid;
-    width: 2.25rem;
-    height: 2.25rem;
-    place-items: center;
-    border-radius: .75rem;
-    background: #caff4a;
-    color: #171a2c;
-    font-size: .875rem;
-    font-weight: 800;
+.navbar-brand img {
+    display: block;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 1rem;
+    object-fit: contain;
 }
 
 .navbar-toggler {
@@ -113,7 +104,7 @@
     }
 
     .nav-scrollable {
-        height: calc(100vh - 4.5rem);
+        height: calc(100vh - 7rem);
         overflow-y: auto;
     }
 }
