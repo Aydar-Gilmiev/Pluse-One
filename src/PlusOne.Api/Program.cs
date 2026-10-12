@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using PlusOne.Api.Data;
 using PlusOne.Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IOfferRepository, InMemoryOfferRepository>();
+var databaseConnection = builder.Configuration.GetConnectionString("PlusOneDatabase")
+    ?? throw new InvalidOperationException("Connection string 'PlusOneDatabase' is not configured.");
+builder.Services.AddDbContext<PlusOneDbContext>(options =>
+    options.UseSqlite(databaseConnection));
+builder.Services.AddScoped<IOfferRepository, SqliteOfferRepository>();
 builder.Services.AddCors(options =>
 {
     var allowedOrigins = builder.Configuration
@@ -24,6 +30,12 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var database = scope.ServiceProvider.GetRequiredService<PlusOneDbContext>();
+    await database.Database.EnsureCreatedAsync();
+}
 
 if (app.Environment.IsDevelopment())
 {
