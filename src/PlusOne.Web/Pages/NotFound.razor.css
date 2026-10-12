@@ -1,0 +1,28 @@
+.not-found {
+    max-width: 36rem;
+    margin: 12vh auto 0;
+    color: #171a2c;
+    text-align: center;
+}
+
+.not-found__code {
+    margin: 0;
+    color: #91b929;
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.not-found h1 {
+    margin: 1rem 0 0;
+}
+
+.not-found p:not(.not-found__code) {
+    margin: .75rem 0 1.5rem;
+    color: #656a7d;
+}
+
+.not-found a {
+    color: #171a2c;
+    font-weight: 700;
+}
