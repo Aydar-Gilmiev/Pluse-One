@@ -16,4 +16,15 @@ public sealed class OffersController(IOfferRepository repository) : ControllerBa
         var offers = await repository.GetAllAsync(cancellationToken);
         return Ok(offers);
     }
+
+    [HttpGet("{id:int}")]
+    [ProducesResponseType<OfferDto>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<OfferDto>> GetById(
+        int id,
+        CancellationToken cancellationToken)
+    {
+        var offer = await repository.GetByIdAsync(id, cancellationToken);
+        return offer is null ? NotFound() : Ok(offer);
+    }
 }

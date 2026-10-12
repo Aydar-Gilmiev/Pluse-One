@@ -69,46 +69,17 @@
     display: grid;
     min-height: 25rem;
     place-content: center;
-    overflow: hidden;
     border-radius: 2.5rem;
     background: #171a2c;
     color: #fff;
     text-align: center;
 }
 
-.home-page__preview::before {
-    position: absolute;
-    width: 16rem;
-    height: 16rem;
-    border-radius: 50%;
-    background: #caff4a;
-    content: "";
-    filter: blur(4.5rem);
-    opacity: .18;
-    transform: translate(7rem, -7rem);
-}
-
-.home-page__plus,
-.home-page__one {
-    position: relative;
-    display: inline-block;
-    font-size: clamp(5rem, 9vw, 8rem);
-    font-weight: 750;
-    line-height: .8;
-    letter-spacing: -.08em;
-}
-
-.home-page__plus {
-    color: #caff4a;
-}
-
-.home-page__preview p {
-    position: relative;
-    max-width: 15rem;
-    margin: 2rem auto 0;
-    color: #d9dbe5;
-    font-size: .9375rem;
-    line-height: 1.5;
+.home-page__preview img {
+    display: block;
+    width: min(100%, 28rem);
+    height: auto;
+    border-radius: 2.5rem;
 }
 
 @media (max-width: 820px) {
