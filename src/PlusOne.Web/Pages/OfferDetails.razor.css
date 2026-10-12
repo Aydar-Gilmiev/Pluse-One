@@ -1,0 +1,154 @@
+.offer-details {
+    width: min(100%, 56rem);
+    margin: 0 auto;
+    padding: .5rem 0 4rem;
+    color: #171a2c;
+}
+
+.offer-details__back {
+    display: inline-flex;
+    margin-bottom: 1.75rem;
+    color: #4f5568;
+    font-size: .9375rem;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.offer-details__back:hover {
+    color: #171a2c;
+}
+
+.offer-details__back:focus-visible,
+.offer-details__message button:focus-visible {
+    outline: 3px solid #91b929;
+    outline-offset: 3px;
+}
+
+.offer-details__card,
+.offer-details__message {
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    border: 1px solid #e4e7ef;
+    border-radius: 2rem;
+    background: #fff;
+}
+
+.offer-details__topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.offer-details__company {
+    font-size: .9375rem;
+    font-weight: 750;
+}
+
+.offer-details__source {
+    padding: .375rem .75rem;
+    border-radius: 999px;
+    background: #eff7dc;
+    color: #52671e;
+    font-size: .75rem;
+    white-space: nowrap;
+}
+
+.offer-details h1 {
+    max-width: 20ch;
+    margin: 1.75rem 0 0;
+    font-size: clamp(2rem, 5vw, 3.75rem);
+    font-weight: 750;
+    line-height: 1.05;
+    letter-spacing: -.035em;
+}
+
+.offer-details__description {
+    max-width: 44rem;
+    margin: 1.25rem 0 0;
+    color: #555b6d;
+    font-size: 1.125rem;
+    line-height: 1.65;
+}
+
+.offer-details__facts {
+    display: grid;
+    margin: 2.5rem 0 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.offer-details__facts div {
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #f7f8fc;
+}
+
+.offer-details__facts dt {
+    color: #73788a;
+    font-size: .75rem;
+}
+
+.offer-details__facts dd {
+    margin: .375rem 0 0;
+    font-size: .9375rem;
+    font-weight: 700;
+}
+
+.offer-details__notice {
+    margin: 2rem 0 0;
+    padding: 1rem 1.125rem;
+    border-left: 3px solid #caff4a;
+    background: #f8fbef;
+    color: #656a7d;
+    font-size: .875rem;
+    line-height: 1.5;
+}
+
+.offer-details__status {
+    color: #656a7d;
+}
+
+.offer-details__message {
+    text-align: center;
+}
+
+.offer-details__message h1 {
+    max-width: none;
+    margin-top: .75rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.offer-details__message p:not(.offer-details__code) {
+    margin: .75rem 0 0;
+    color: #656a7d;
+}
+
+.offer-details__code {
+    margin: 0;
+    color: #91b929;
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+.offer-details__message button {
+    margin-top: 1.25rem;
+    padding: .75rem 1.25rem;
+    border: 0;
+    border-radius: 999px;
+    background: #171a2c;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+@media (max-width: 640px) {
+    .offer-details__facts {
+        grid-template-columns: 1fr;
+    }
+
+    .offer-details__topline {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

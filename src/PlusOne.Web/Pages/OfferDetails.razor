@@ -1,0 +1,116 @@
+@page "/offers/{Id:int}"
+@using System.Text.Json
+@implements IDisposable
+@inject OffersApiClient OffersApi
+
+<PageTitle>@(offer?.Title ?? "Предложение") — Plus One</PageTitle>
+
+<section class="offer-details">
+    <a class="offer-details__back" href="offers">← Вернуться к предложениям</a>
+
+    @if (state == DetailsState.Loading)
+    {
+        <p class="offer-details__status" role="status">Загружаем предложение…</p>
+    }
+    else if (state == DetailsState.NotFound)
+    {
+        <div class="offer-details__message">
+            <p class="offer-details__code">404</p>
+            <h1>Предложение не найдено</h1>
+            <p>Возможно, оно было удалено или ссылка устарела.</p>
+        </div>
+    }
+    else if (state == DetailsState.Failed)
+    {
+        <div class="offer-details__message" role="alert">
+            <h1>Не удалось загрузить предложение</h1>
+            <p>Проверьте соединение с API и попробуйте ещё раз.</p>
+            <button type="button" @onclick="LoadOfferAsync">Повторить</button>
+        </div>
+    }
+    else if (offer is not null)
+    {
+        <article class="offer-details__card">
+            <div class="offer-details__topline">
+                <span class="offer-details__company">@offer.CompanyName</span>
+                <span class="offer-details__source">@SourceLabel</span>
+            </div>
+
+            <h1>@offer.Title</h1>
+            <p class="offer-details__description">@offer.Description</p>
+
+            <dl class="offer-details__facts">
+                <div>
+                    <dt>Категория</dt>
+                    <dd>@OfferCategoryNames.Get(offer.Category)</dd>
+                </div>
+                <div>
+                    <dt>Срок действия</dt>
+                    <dd>@(offer.ValidUntil?.ToString("dd.MM.yyyy") ?? "Не указан")</dd>
+                </div>
+                <div>
+                    <dt>Источник</dt>
+                    <dd>@SourceLabel</dd>
+                </div>
+            </dl>
+
+            <p class="offer-details__notice">
+                Сейчас в приложении используются демонстрационные предложения первого MVP.
+            </p>
+        </article>
+    }
+</section>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private readonly CancellationTokenSource disposalTokenSource = new();
+    private OfferDto? offer;
+    private DetailsState state = DetailsState.Loading;
+
+    private string SourceLabel => offer?.SourceType switch
+    {
+        OfferSourceType.Partner => "Партнёр",
+        OfferSourceType.OpenSource => "Открытый источник",
+        _ => "Источник не указан"
+    };
+
+    protected override Task OnParametersSetAsync() => LoadOfferAsync();
+
+    private async Task LoadOfferAsync()
+    {
+        state = DetailsState.Loading;
+
+        try
+        {
+            offer = await OffersApi.GetByIdAsync(Id, disposalTokenSource.Token);
+            state = offer is null ? DetailsState.NotFound : DetailsState.Loaded;
+        }
+        catch (OperationCanceledException) when (disposalTokenSource.IsCancellationRequested)
+        {
+        }
+        catch (Exception exception) when (exception is HttpRequestException
+            or JsonException
+            or NotSupportedException
+            or OperationCanceledException)
+        {
+            offer = null;
+            state = DetailsState.Failed;
+        }
+    }
+
+    public void Dispose()
+    {
+        disposalTokenSource.Cancel();
+        disposalTokenSource.Dispose();
+    }
+
+    private enum DetailsState
+    {
+        Loading,
+        Loaded,
+        NotFound,
+        Failed
+    }
+}

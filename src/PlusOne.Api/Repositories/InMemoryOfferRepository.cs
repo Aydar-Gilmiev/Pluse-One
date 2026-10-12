@@ -77,4 +77,10 @@ public sealed class InMemoryOfferRepository : IOfferRepository
         cancellationToken.ThrowIfCancellationRequested();
         return Task.FromResult(Offers);
     }
+
+    public Task<OfferDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(Offers.FirstOrDefault(offer => offer.Id == id));
+    }
 }

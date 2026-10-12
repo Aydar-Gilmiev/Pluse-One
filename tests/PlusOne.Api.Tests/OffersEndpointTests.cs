@@ -73,6 +73,32 @@ public sealed class OffersEndpointTests
     }
 
     [Fact]
+    public async Task GetOfferById_WhenOfferExists_ReturnsOffer()
+    {
+        await using var factory = new WebApplicationFactory<Program>();
+        using var client = factory.CreateClient();
+
+        using var response = await client.GetAsync("/api/offers/1");
+        var offer = await response.Content.ReadFromJsonAsync<OfferDto>();
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotNull(offer);
+        Assert.Equal(1, offer.Id);
+        Assert.False(string.IsNullOrWhiteSpace(offer.Title));
+    }
+
+    [Fact]
+    public async Task GetOfferById_WhenOfferDoesNotExist_ReturnsNotFound()
+    {
+        await using var factory = new WebApplicationFactory<Program>();
+        using var client = factory.CreateClient();
+
+        using var response = await client.GetAsync("/api/offers/9999");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
     public async Task GetOffers_AllowsConfiguredBlazorOrigin()
     {
         await using var factory = new WebApplicationFactory<Program>();
@@ -104,5 +130,8 @@ public sealed class OffersEndpointTests
     {
         public Task<IReadOnlyList<OfferDto>> GetAllAsync(CancellationToken cancellationToken) =>
             Task.FromResult<IReadOnlyList<OfferDto>>([]);
+
+        public Task<OfferDto?> GetByIdAsync(int id, CancellationToken cancellationToken) =>
+            Task.FromResult<OfferDto?>(null);
     }
 }
