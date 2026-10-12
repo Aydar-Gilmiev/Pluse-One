@@ -94,6 +94,79 @@
     font-weight: 700;
 }
 
+.offer-details__promo {
+    display: grid;
+    margin-top: 2rem;
+    padding: 1.25rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: .75rem 1.5rem;
+    border-radius: 1.25rem;
+    background: #171a2c;
+    color: #fff;
+}
+
+.offer-details__promo-label {
+    margin: 0;
+    color: #caff4a;
+    font-size: .75rem;
+    font-weight: 750;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.offer-details__promo-code {
+    margin: .35rem 0 0;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 800;
+    letter-spacing: .06em;
+    overflow-wrap: anywhere;
+}
+
+.offer-details__promo-instructions {
+    max-width: 35rem;
+    margin: .6rem 0 0;
+    color: #c8cbd6;
+    font-size: .875rem;
+    line-height: 1.5;
+    text-wrap: pretty;
+}
+
+.offer-details__copy {
+    min-width: 8.5rem;
+    min-height: 2.75rem;
+    padding: .7rem 1rem;
+    border: 0;
+    border-radius: .875rem;
+    background: #caff4a;
+    color: #171a2c;
+    font: inherit;
+    font-size: .875rem;
+    font-weight: 750;
+    cursor: pointer;
+    transition: background-color 120ms ease, transform 120ms ease;
+}
+
+.offer-details__copy:hover {
+    background: #d8ff78;
+}
+
+.offer-details__copy:active {
+    transform: scale(.96);
+}
+
+.offer-details__copy:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+.offer-details__copy-status {
+    min-height: 1.25rem;
+    grid-column: 1 / -1;
+    color: #ffcdc5;
+    font-size: .8125rem;
+}
+
 .offer-details__status {
     color: #656a7d;
 }
@@ -140,5 +213,19 @@
     .offer-details__topline {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .offer-details__promo {
+        grid-template-columns: 1fr;
+    }
+
+    .offer-details__copy {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .offer-details__copy {
+        transition: none;
     }
 }

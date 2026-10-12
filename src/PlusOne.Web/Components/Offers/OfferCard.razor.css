@@ -68,6 +68,17 @@
     text-align: right;
 }
 
+.offer-card__promo {
+    align-self: flex-start;
+    margin: 0;
+    padding: .35rem .65rem;
+    border-radius: 999px;
+    background: #eaffb7;
+    color: #34420c;
+    font-size: .75rem;
+    font-weight: 700;
+}
+
 .offer-card__link {
     display: inline-flex;
     align-items: center;

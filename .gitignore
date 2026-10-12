@@ -65,6 +65,11 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+# Local SQLite database
+*.db
+*.db-shm
+*.db-wal
+
 # Tye
 .tye/
 

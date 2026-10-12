@@ -10,4 +10,6 @@ public sealed class OfferDto
     public OfferSourceType SourceType { get; init; }
     public string SourceUrl { get; init; } = string.Empty;
     public DateOnly? ValidUntil { get; init; }
+    public string? PromoCode { get; init; }
+    public string? RedemptionInstructions { get; init; }
 }

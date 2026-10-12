@@ -14,6 +14,11 @@
         </span>
     </div>
 
+    @if (!string.IsNullOrWhiteSpace(Offer.PromoCode))
+    {
+        <p class="offer-card__promo">Промокод внутри</p>
+    }
+
     <a class="offer-card__link" href="@($"offers/{Offer.Id}")">
         Подробнее <span aria-hidden="true">→</span>
     </a>
