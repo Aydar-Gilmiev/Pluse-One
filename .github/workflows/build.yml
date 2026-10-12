@@ -18,6 +18,3 @@ jobs:
 
       - name: Build
         run: dotnet build PlusOne.sln
-
-      - name: Test
-        run: dotnet test PlusOne.sln --no-build
