@@ -94,16 +94,6 @@
     font-weight: 700;
 }
 
-.offer-details__notice {
-    margin: 2rem 0 0;
-    padding: 1rem 1.125rem;
-    border-left: 3px solid #caff4a;
-    background: #f8fbef;
-    color: #656a7d;
-    font-size: .875rem;
-    line-height: 1.5;
-}
-
 .offer-details__status {
     color: #656a7d;
 }
