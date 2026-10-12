@@ -10,10 +10,10 @@
     {
         <button @key="category"
                 type="button"
-                class="category-filter__button @(SelectedCategory == category ? "is-selected" : null)"
-                aria-pressed="@(SelectedCategory == category)"
+                class="category-filter__button @(IsSelected(category) ? "is-selected" : null)"
+                aria-pressed="@IsSelected(category)"
                 @onclick="() => SelectCategoryAsync(category)">
-            @category
+            @OfferCategoryNames.Get(category)
         </button>
     }
 </nav>
@@ -31,6 +31,9 @@
     private IEnumerable<string> UniqueCategories =>
         Categories.Where(category => !string.IsNullOrWhiteSpace(category))
             .Distinct(StringComparer.OrdinalIgnoreCase);
+
+    private bool IsSelected(string category) =>
+        string.Equals(SelectedCategory, category, StringComparison.OrdinalIgnoreCase);
 
     private Task SelectCategoryAsync(string? category) =>
         SelectedCategoryChanged.InvokeAsync(category);
