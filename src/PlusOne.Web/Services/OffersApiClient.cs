@@ -13,7 +13,10 @@ public sealed class OffersApiClient(HttpClient httpClient, CurrentUser currentUs
         string? search = null,
         bool includeExpired = false)
     {
-        var parameters = new List<string>();
+        var parameters = new List<string>
+        {
+            $"userId={currentUser.User?.UserId ?? 0}"
+        };
         if (!string.IsNullOrWhiteSpace(search))
         {
             parameters.Add($"search={Uri.EscapeDataString(search.Trim())}");
@@ -33,7 +36,9 @@ public sealed class OffersApiClient(HttpClient httpClient, CurrentUser currentUs
 
     public async Task<OfferDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        using var response = await httpClient.GetAsync($"api/offers/{id}", cancellationToken);
+        using var response = await httpClient.GetAsync(
+            $"api/offers/{id}?userId={currentUser.User?.UserId ?? 0}",
+            cancellationToken);
 
         if (response.StatusCode == HttpStatusCode.NotFound)
         {

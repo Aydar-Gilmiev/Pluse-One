@@ -38,7 +38,7 @@ public sealed class PlusOneDbContext(DbContextOptions<PlusOneDbContext> options)
         user.HasKey(item => item.Id);
         user.Property(item => item.UserName).HasMaxLength(80).IsRequired();
         user.Property(item => item.Login).HasMaxLength(50).IsRequired();
-        user.Property(item => item.PasswordHash).HasMaxLength(300).IsRequired();
+        user.Property(item => item.Password).HasMaxLength(100).IsRequired();
         user.HasIndex(item => item.Login).IsUnique();
         user.HasOne(item => item.Role)
             .WithMany()

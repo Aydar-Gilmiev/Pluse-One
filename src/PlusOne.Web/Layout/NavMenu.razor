@@ -24,12 +24,15 @@
                 Главная
             </NavLink>
         </div>
-        <div class="nav-item">
-            <NavLink class="nav-link" href="offers" @onclick="CloseNavMenu">
-                <span class="nav-icon nav-icon--offers" aria-hidden="true"></span>
-                Предложения
-            </NavLink>
-        </div>
+        @if (CurrentUser.IsAuthorized)
+        {
+            <div class="nav-item">
+                <NavLink class="nav-link" href="offers" @onclick="CloseNavMenu">
+                    <span class="nav-icon nav-icon--offers" aria-hidden="true"></span>
+                    Предложения
+                </NavLink>
+            </div>
+        }
         @if (CurrentUser.IsAdmin)
         {
             <div class="nav-item">

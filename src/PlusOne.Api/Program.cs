@@ -16,6 +16,7 @@ builder.Services.AddDbContext<PlusOneDbContext>(options =>
 builder.Services.AddScoped<IOfferRepository, SqliteOfferRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOfferManagementService, OfferManagementService>();
+builder.Services.AddScoped<IUserAccessService, UserAccessService>();
 builder.Services.AddCors(options =>
 {
     var allowedOrigins = builder.Configuration

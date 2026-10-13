@@ -11,13 +11,16 @@ public sealed class OffersController : ControllerBase
 {
     private readonly IOfferRepository _repository;
     private readonly IOfferManagementService _offerManagementService;
+    private readonly IUserAccessService _userAccessService;
 
     public OffersController(
         IOfferRepository repository,
-        IOfferManagementService offerManagementService)
+        IOfferManagementService offerManagementService,
+        IUserAccessService userAccessService)
     {
         _repository = repository;
         _offerManagementService = offerManagementService;
+        _userAccessService = userAccessService;
     }
 
     [HttpGet]
@@ -25,8 +28,14 @@ public sealed class OffersController : ControllerBase
     public async Task<ActionResult<IReadOnlyList<OfferDto>>> GetAll(
         CancellationToken cancellationToken,
         [FromQuery] string? search = null,
-        [FromQuery] bool includeExpired = false)
+        [FromQuery] bool includeExpired = false,
+        [FromQuery] int userId = 0)
     {
+        if (!await _userAccessService.IsRegisteredUserAsync(userId, cancellationToken))
+        {
+            return Unauthorized(new { status = false, message = "Пользователь не авторизован." });
+        }
+
         var offers = await _repository.GetAllAsync(search, includeExpired, cancellationToken);
         return Ok(offers);
     }
@@ -36,8 +45,14 @@ public sealed class OffersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<OfferDto>> GetById(
         int id,
+        [FromQuery] int userId,
         CancellationToken cancellationToken)
     {
+        if (!await _userAccessService.IsRegisteredUserAsync(userId, cancellationToken))
+        {
+            return Unauthorized(new { status = false, message = "Пользователь не авторизован." });
+        }
+
         var offer = await _repository.GetByIdAsync(id, cancellationToken);
         return offer is null ? NotFound() : Ok(offer);
     }

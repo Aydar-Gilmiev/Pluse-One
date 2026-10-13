@@ -28,7 +28,7 @@ public sealed class AuthService : IAuthService
             .Include(item => item.Role)
             .FirstOrDefaultAsync(item => item.Login == login, cancellationToken);
 
-        if (user is null || !PasswordHasher.Verify(request.Password, user.PasswordHash))
+        if (user is null || user.Password != request.Password)
         {
             return new UnauthorizedObjectResult(new AuthResponse
             {
@@ -85,7 +85,7 @@ public sealed class AuthService : IAuthService
         {
             UserName = request.UserName.Trim(),
             Login = login,
-            PasswordHash = PasswordHasher.Hash(request.Password),
+            Password = request.Password,
             RoleId = userRole.Id,
             Role = userRole
         };
