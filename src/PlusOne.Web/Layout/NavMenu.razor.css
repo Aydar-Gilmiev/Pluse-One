@@ -61,6 +61,28 @@
     text-decoration: none;
 }
 
+.nav-item--user {
+    padding: .75rem 1rem .25rem;
+}
+
+.nav-user {
+    display: block;
+    overflow: hidden;
+    color: #bfc3d2;
+    font-size: .8125rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-item .nav-link--button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
 .nav-item ::deep .nav-link:hover {
     background: rgba(255, 255, 255, .07);
     color: #fff;

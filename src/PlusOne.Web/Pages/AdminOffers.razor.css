@@ -37,15 +37,6 @@
     text-wrap: pretty;
 }
 
-.admin-offers__notice {
-    margin: 1.5rem 0 0;
-    padding: .875rem 1rem;
-    border-left: 3px solid #caff4a;
-    background: #f4f8e9;
-    color: #596141;
-    font-size: .875rem;
-}
-
 .admin-search {
     margin-top: 2rem;
 }

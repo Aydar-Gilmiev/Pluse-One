@@ -1,6 +1,8 @@
 @page "/admin/offers"
 @implements IDisposable
 @inject OffersApiClient OffersApi
+@inject CurrentUser CurrentUser
+@inject NavigationManager Navigation
 
 <PageTitle>Управление предложениями — Plus One</PageTitle>
 
@@ -15,10 +17,6 @@
             Добавить предложение
         </button>
     </header>
-
-    <p class="admin-offers__notice">
-        Учебный MVP: этот раздел пока не защищён авторизацией.
-    </p>
 
     <form class="admin-search" @onsubmit="SearchAsync" @onsubmit:preventDefault>
         <label for="offers-search">Поиск</label>
@@ -219,7 +217,16 @@
     private bool editorVisible;
     private bool saving;
 
-    protected override Task OnInitializedAsync() => LoadOffersAsync();
+    protected override Task OnInitializedAsync()
+    {
+        if (!CurrentUser.IsAdmin)
+        {
+            Navigation.NavigateTo("login");
+            return Task.CompletedTask;
+        }
+
+        return LoadOffersAsync();
+    }
 
     private async Task LoadOffersAsync()
     {

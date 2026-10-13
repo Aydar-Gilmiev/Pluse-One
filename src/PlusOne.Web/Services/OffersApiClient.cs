@@ -4,7 +4,7 @@ using PlusOne.Contracts.Models;
 
 namespace PlusOne.Web.Services;
 
-public sealed class OffersApiClient(HttpClient httpClient)
+public sealed class OffersApiClient(HttpClient httpClient, CurrentUser currentUser)
 {
     private const string OffersEndpoint = "api/offers";
 
@@ -48,7 +48,10 @@ public sealed class OffersApiClient(HttpClient httpClient)
         SaveOfferRequest request,
         CancellationToken cancellationToken)
     {
-        using var response = await httpClient.PostAsJsonAsync(OffersEndpoint, request, cancellationToken);
+        using var response = await httpClient.PostAsJsonAsync(
+            GetAdminEndpoint(),
+            request,
+            cancellationToken);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<OfferDto>(cancellationToken)
             ?? throw new InvalidOperationException("API returned an empty response after creating an offer.");
@@ -59,7 +62,10 @@ public sealed class OffersApiClient(HttpClient httpClient)
         SaveOfferRequest request,
         CancellationToken cancellationToken)
     {
-        using var response = await httpClient.PutAsJsonAsync($"{OffersEndpoint}/{id}", request, cancellationToken);
+        using var response = await httpClient.PutAsJsonAsync(
+            GetAdminEndpoint(id),
+            request,
+            cancellationToken);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<OfferDto>(cancellationToken)
             ?? throw new InvalidOperationException("API returned an empty response after updating an offer.");
@@ -67,7 +73,13 @@ public sealed class OffersApiClient(HttpClient httpClient)
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken)
     {
-        using var response = await httpClient.DeleteAsync($"{OffersEndpoint}/{id}", cancellationToken);
+        using var response = await httpClient.DeleteAsync(GetAdminEndpoint(id), cancellationToken);
         response.EnsureSuccessStatusCode();
+    }
+
+    private string GetAdminEndpoint(int? offerId = null)
+    {
+        var endpoint = offerId is null ? OffersEndpoint : $"{OffersEndpoint}/{offerId}";
+        return $"{endpoint}?userId={currentUser.User?.UserId ?? 0}";
     }
 }
