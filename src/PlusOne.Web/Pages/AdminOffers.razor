@@ -1,0 +1,376 @@
+@page "/admin/offers"
+@implements IDisposable
+@inject OffersApiClient OffersApi
+@inject CurrentUser CurrentUser
+@inject NavigationManager Navigation
+
+<PageTitle>Управление предложениями — Plus One</PageTitle>
+
+<section class="admin-offers">
+    <header class="admin-offers__header">
+        <div>
+            <p class="admin-offers__eyebrow">Администрирование</p>
+            <h1>Управление предложениями</h1>
+            <p>Добавляйте предложения, обновляйте промокоды и контролируйте сроки действия.</p>
+        </div>
+        <button type="button" class="admin-button admin-button--primary" @onclick="StartCreate">
+            Добавить предложение
+        </button>
+    </header>
+
+    <form class="admin-search" @onsubmit="SearchAsync" @onsubmit:preventDefault>
+        <label for="offers-search">Поиск</label>
+        <div class="admin-search__controls">
+            <input id="offers-search"
+                   type="search"
+                   placeholder="Название или компания"
+                   @bind="search"
+                   autocomplete="off" />
+            <button type="submit" class="admin-button admin-button--dark">Найти</button>
+            @if (!string.IsNullOrWhiteSpace(search))
+            {
+                <button type="button" class="admin-button admin-button--quiet" @onclick="ClearSearchAsync">
+                    Сбросить
+                </button>
+            }
+        </div>
+    </form>
+
+    @if (editorVisible)
+    {
+        <section class="offer-editor" aria-labelledby="offer-editor-title">
+            <div class="offer-editor__heading">
+                <div>
+                    <p class="admin-offers__eyebrow">@(editingId is null ? "Новое предложение" : $"Предложение #{editingId}")</p>
+                    <h2 id="offer-editor-title">@(editingId is null ? "Добавить предложение" : "Редактировать предложение")</h2>
+                </div>
+                <button type="button" class="admin-button admin-button--quiet" @onclick="CancelEdit">Закрыть</button>
+            </div>
+
+            <EditForm Model="editModel" OnValidSubmit="SaveAsync" FormName="offer-editor">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="offer-editor__validation" />
+
+                <div class="offer-editor__grid">
+                    <div class="offer-field">
+                        <label for="company-name">Компания</label>
+                        <InputText id="company-name" @bind-Value="editModel.CompanyName" />
+                        <ValidationMessage For="@(() => editModel.CompanyName)" />
+                    </div>
+                    <div class="offer-field">
+                        <label for="offer-title">Название</label>
+                        <InputText id="offer-title" @bind-Value="editModel.Title" />
+                        <ValidationMessage For="@(() => editModel.Title)" />
+                    </div>
+                    <div class="offer-field offer-field--wide">
+                        <label for="offer-description">Описание</label>
+                        <InputTextArea id="offer-description" @bind-Value="editModel.Description" />
+                        <ValidationMessage For="@(() => editModel.Description)" />
+                    </div>
+                    <div class="offer-field">
+                        <label for="offer-category">Категория</label>
+                        <InputSelect id="offer-category" @bind-Value="editModel.Category">
+                            <option value="">Выберите категорию</option>
+                            @foreach (var category in Categories)
+                            {
+                                <option value="@category">@OfferCategoryNames.Get(category)</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(() => editModel.Category)" />
+                    </div>
+                    <div class="offer-field">
+                        <label for="offer-source-type">Тип источника</label>
+                        <InputSelect id="offer-source-type" @bind-Value="editModel.SourceType">
+                            <option value="@OfferSourceType.Partner">Партнёр</option>
+                            <option value="@OfferSourceType.OpenSource">Открытый источник</option>
+                        </InputSelect>
+                    </div>
+                    <div class="offer-field">
+                        <label for="offer-valid-until">Действует до</label>
+                        <InputDate id="offer-valid-until" @bind-Value="editModel.ValidUntil" />
+                    </div>
+                    <div class="offer-field">
+                        <label for="offer-source-url">Ссылка на источник</label>
+                        <InputText id="offer-source-url" type="url" placeholder="https://example.com/offer" @bind-Value="editModel.SourceUrl" />
+                        <ValidationMessage For="@(() => editModel.SourceUrl)" />
+                    </div>
+                    <div class="offer-field">
+                        <label for="offer-promo-code">Промокод</label>
+                        <InputText id="offer-promo-code" @bind-Value="editModel.PromoCode" />
+                        <ValidationMessage For="@(() => editModel.PromoCode)" />
+                    </div>
+                    <div class="offer-field offer-field--wide">
+                        <label for="offer-instructions">Инструкция по использованию</label>
+                        <InputTextArea id="offer-instructions" @bind-Value="editModel.RedemptionInstructions" />
+                        <ValidationMessage For="@(() => editModel.RedemptionInstructions)" />
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(editorError))
+                {
+                    <p class="offer-editor__error" role="alert">@editorError</p>
+                }
+
+                <div class="offer-editor__actions">
+                    <button type="submit" class="admin-button admin-button--primary" disabled="@saving">
+                        @(saving ? "Сохраняем…" : editingId is null ? "Создать" : "Сохранить")
+                    </button>
+                    <button type="button" class="admin-button admin-button--quiet" @onclick="CancelEdit" disabled="@saving">
+                        Отмена
+                    </button>
+                </div>
+            </EditForm>
+        </section>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(statusMessage))
+    {
+        <p class="admin-status" role="status">@statusMessage</p>
+    }
+
+    @if (state == AdminState.Loading)
+    {
+        <p class="admin-offers__loading" role="status">Загружаем предложения…</p>
+    }
+    else if (state == AdminState.Failed)
+    {
+        <div class="admin-empty" role="alert">
+            <h2>Не удалось загрузить предложения</h2>
+            <p>Проверьте, запущен ли API, и попробуйте ещё раз.</p>
+            <button type="button" class="admin-button admin-button--dark" @onclick="LoadOffersAsync">Повторить</button>
+        </div>
+    }
+    else if (offers.Count == 0)
+    {
+        <div class="admin-empty">
+            <h2>Предложения не найдены</h2>
+            <p>@(string.IsNullOrWhiteSpace(search) ? "Создайте первое предложение." : "Измените поисковый запрос или сбросьте поиск.")</p>
+        </div>
+    }
+    else
+    {
+        <div class="admin-list" aria-label="Список предложений">
+            @foreach (var offer in offers)
+            {
+                <article class="admin-offer" @key="offer.Id">
+                    <div class="admin-offer__content">
+                        <div class="admin-offer__topline">
+                            <span>@offer.CompanyName</span>
+                            @if (IsExpired(offer))
+                            {
+                                <span class="admin-offer__badge admin-offer__badge--expired">Срок истёк</span>
+                            }
+                            else
+                            {
+                                <span class="admin-offer__badge">Активно</span>
+                            }
+                        </div>
+                        <h2>@offer.Title</h2>
+                        <p>@offer.Description</p>
+                        <div class="admin-offer__meta">
+                            <span>@OfferCategoryNames.Get(offer.Category)</span>
+                            <span>@(offer.ValidUntil?.ToString("dd.MM.yyyy") ?? "Без срока")</span>
+                            @if (!string.IsNullOrWhiteSpace(offer.PromoCode))
+                            {
+                                <span class="admin-offer__promo">@offer.PromoCode</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="admin-offer__actions">
+                        <button type="button" class="admin-button admin-button--quiet" @onclick="() => StartEdit(offer)">
+                            Редактировать
+                        </button>
+                        @if (pendingDeleteId == offer.Id)
+                        {
+                            <span class="admin-offer__confirm">Удалить без возможности восстановления?</span>
+                            <button type="button" class="admin-button admin-button--danger" @onclick="() => DeleteAsync(offer.Id)">
+                                Да, удалить
+                            </button>
+                            <button type="button" class="admin-button admin-button--quiet" @onclick="CancelDelete">Отмена</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="admin-button admin-button--danger-quiet" @onclick="() => ConfirmDelete(offer.Id)">
+                                Удалить
+                            </button>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
+    }
+</section>
+
+@code {
+    private static readonly string[] Categories = ["Food", "Transport", "Education", "Entertainment"];
+
+    private readonly CancellationTokenSource disposalTokenSource = new();
+    private IReadOnlyList<OfferDto> offers = [];
+    private SaveOfferRequest editModel = NewOfferModel();
+    private AdminState state = AdminState.Loading;
+    private string search = string.Empty;
+    private string? statusMessage;
+    private string? editorError;
+    private int? editingId;
+    private int? pendingDeleteId;
+    private bool editorVisible;
+    private bool saving;
+
+    protected override Task OnInitializedAsync()
+    {
+        if (!CurrentUser.IsAdmin)
+        {
+            Navigation.NavigateTo("login");
+            return Task.CompletedTask;
+        }
+
+        return LoadOffersAsync();
+    }
+
+    private async Task LoadOffersAsync()
+    {
+        state = AdminState.Loading;
+        pendingDeleteId = null;
+
+        try
+        {
+            offers = await OffersApi.GetAllAsync(
+                disposalTokenSource.Token,
+                search,
+                includeExpired: true);
+            state = AdminState.Loaded;
+        }
+        catch (OperationCanceledException) when (disposalTokenSource.IsCancellationRequested)
+        {
+        }
+        catch (Exception exception) when (exception is HttpRequestException
+            or System.Text.Json.JsonException
+            or NotSupportedException
+            or OperationCanceledException)
+        {
+            offers = [];
+            state = AdminState.Failed;
+        }
+    }
+
+    private Task SearchAsync()
+    {
+        statusMessage = null;
+        return LoadOffersAsync();
+    }
+
+    private async Task ClearSearchAsync()
+    {
+        search = string.Empty;
+        statusMessage = null;
+        await LoadOffersAsync();
+    }
+
+    private void StartCreate()
+    {
+        editingId = null;
+        editModel = NewOfferModel();
+        editorError = null;
+        statusMessage = null;
+        editorVisible = true;
+    }
+
+    private void StartEdit(OfferDto offer)
+    {
+        editingId = offer.Id;
+        editModel = new SaveOfferRequest
+        {
+            CompanyName = offer.CompanyName,
+            Title = offer.Title,
+            Description = offer.Description,
+            Category = offer.Category,
+            SourceType = offer.SourceType,
+            SourceUrl = offer.SourceUrl,
+            ValidUntil = offer.ValidUntil,
+            PromoCode = offer.PromoCode,
+            RedemptionInstructions = offer.RedemptionInstructions
+        };
+        editorError = null;
+        statusMessage = null;
+        editorVisible = true;
+    }
+
+    private void CancelEdit()
+    {
+        editorVisible = false;
+        editorError = null;
+    }
+
+    private async Task SaveAsync()
+    {
+        saving = true;
+        editorError = null;
+
+        try
+        {
+            if (editingId is int id)
+            {
+                await OffersApi.UpdateAsync(id, editModel, disposalTokenSource.Token);
+                statusMessage = "Предложение обновлено.";
+            }
+            else
+            {
+                await OffersApi.CreateAsync(editModel, disposalTokenSource.Token);
+                statusMessage = "Предложение создано.";
+            }
+
+            editorVisible = false;
+            await LoadOffersAsync();
+        }
+        catch (Exception exception) when (exception is HttpRequestException
+            or System.Text.Json.JsonException
+            or NotSupportedException)
+        {
+            editorError = "Не удалось сохранить предложение. Проверьте данные и соединение с API.";
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private void ConfirmDelete(int id) => pendingDeleteId = id;
+
+    private void CancelDelete() => pendingDeleteId = null;
+
+    private async Task DeleteAsync(int id)
+    {
+        try
+        {
+            await OffersApi.DeleteAsync(id, disposalTokenSource.Token);
+            statusMessage = "Предложение удалено.";
+            await LoadOffersAsync();
+        }
+        catch (HttpRequestException)
+        {
+            statusMessage = "Не удалось удалить предложение.";
+        }
+    }
+
+    private static bool IsExpired(OfferDto offer) =>
+        offer.ValidUntil is DateOnly validUntil && validUntil < DateOnly.FromDateTime(DateTime.Today);
+
+    private static SaveOfferRequest NewOfferModel() => new()
+    {
+        SourceType = OfferSourceType.Partner
+    };
+
+    public void Dispose()
+    {
+        disposalTokenSource.Cancel();
+        disposalTokenSource.Dispose();
+    }
+
+    private enum AdminState
+    {
+        Loading,
+        Loaded,
+        Failed
+    }
+}

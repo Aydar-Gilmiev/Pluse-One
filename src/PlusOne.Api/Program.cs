@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PlusOne.Api.Data;
+using PlusOne.Api.Interfaces;
 using PlusOne.Api.Repositories;
+using PlusOne.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,9 @@ var databaseConnection = builder.Configuration.GetConnectionString("PlusOneDatab
 builder.Services.AddDbContext<PlusOneDbContext>(options =>
     options.UseSqlite(databaseConnection));
 builder.Services.AddScoped<IOfferRepository, SqliteOfferRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IOfferManagementService, OfferManagementService>();
+builder.Services.AddScoped<IUserAccessService, UserAccessService>();
 builder.Services.AddCors(options =>
 {
     var allowedOrigins = builder.Configuration
@@ -33,8 +38,7 @@ var app = builder.Build();
 
 await using (var scope = app.Services.CreateAsyncScope())
 {
-    var database = scope.ServiceProvider.GetRequiredService<PlusOneDbContext>();
-    await database.Database.EnsureCreatedAsync();
+    await DatabaseInitializer.InitializeAsync(scope.ServiceProvider);
 }
 
 if (app.Environment.IsDevelopment())

@@ -61,6 +61,28 @@
     text-decoration: none;
 }
 
+.nav-item--user {
+    padding: .75rem 1rem .25rem;
+}
+
+.nav-user {
+    display: block;
+    overflow: hidden;
+    color: #bfc3d2;
+    font-size: .8125rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-item .nav-link--button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
 .nav-item ::deep .nav-link:hover {
     background: rgba(255, 255, 255, .07);
     color: #fff;
@@ -92,6 +114,10 @@
 
 .nav-icon--offers {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.6 13.6 11 23.2a2 2 0 0 1-2.8 0L.8 15.8a2 2 0 0 1 0-2.8L10.4 3.4A2 2 0 0 1 11.8 3H20a2 2 0 0 1 2 2v8.2a2 2 0 0 1-.6 1.4ZM17 7a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z'/%3E%3C/svg%3E");
+}
+
+.nav-icon--admin {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 4v2h12V7H6Zm0 4v2h7v-2H6Zm0 4v2h10v-2H6Z'/%3E%3C/svg%3E");
 }
 
 @media (min-width: 641px) {

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject CurrentUser CurrentUser
 
 <PageTitle>Plus One — возможности для студентов</PageTitle>
 
@@ -10,7 +11,14 @@
             Plus One собирает скидки, акции и специальные предложения компаний,
             чтобы их не приходилось искать на разных сайтах.
         </p>
-        <a class="home-page__action" href="offers">Смотреть предложения</a>
+        @if (CurrentUser.IsAuthorized)
+        {
+            <a class="home-page__action" href="offers">Смотреть предложения</a>
+        }
+        else
+        {
+            <a class="home-page__action" href="login">Войти</a>
+        }
     </div>
 
     <div class="home-page__preview">

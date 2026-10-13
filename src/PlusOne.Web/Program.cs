@@ -16,6 +16,10 @@ var apiBaseAddress = new Uri(
     new Uri(builder.HostEnvironment.BaseAddress),
     string.IsNullOrWhiteSpace(apiBaseUrl) ? "./" : apiBaseUrl.Trim().TrimEnd('/') + "/");
 
-builder.Services.AddScoped(_ => new OffersApiClient(new HttpClient { BaseAddress = apiBaseAddress }));
+builder.Services.AddScoped<CurrentUser>();
+builder.Services.AddScoped(sp => new OffersApiClient(
+    new HttpClient { BaseAddress = apiBaseAddress },
+    sp.GetRequiredService<CurrentUser>()));
+builder.Services.AddScoped(_ => new AuthApiClient(new HttpClient { BaseAddress = apiBaseAddress }));
 
 await builder.Build().RunAsync();

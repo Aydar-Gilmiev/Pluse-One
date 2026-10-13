@@ -1,0 +1,78 @@
+@page "/registration"
+@inject AuthApiClient AuthApi
+@inject NavigationManager Navigation
+
+<PageTitle>Регистрация — Plus One</PageTitle>
+
+<section class="auth-page">
+    <div class="auth-card">
+        <p class="auth-card__eyebrow">Plus One</p>
+        <h1>Регистрация</h1>
+        <p class="auth-card__text">Создайте аккаунт, чтобы пользоваться приложением.</p>
+
+        <div class="auth-field">
+            <label for="user-name">Имя</label>
+            <input id="user-name" autocomplete="name" @bind="regRequest.UserName" @bind:event="oninput" />
+        </div>
+
+        <div class="auth-field">
+            <label for="login">Логин</label>
+            <input id="login" autocomplete="username" @bind="regRequest.Login" @bind:event="oninput" />
+        </div>
+
+        <div class="auth-field">
+            <label for="password">Пароль</label>
+            <input id="password" type="password" autocomplete="new-password" @bind="regRequest.Password" @bind:event="oninput" />
+        </div>
+
+        <button type="button" class="auth-button" @onclick="Register" disabled="@sending">
+            @(sending ? "Создаём аккаунт…" : "Зарегистрироваться")
+        </button>
+
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <p class="auth-error" role="alert">@errorMessage</p>
+        }
+
+        <p class="auth-card__footer">
+            Уже есть аккаунт? <a href="login">Войти</a>
+        </p>
+    </div>
+</section>
+
+@code {
+    private RegRequest regRequest = new();
+    private string? errorMessage;
+    private bool sending;
+
+    private async Task Register()
+    {
+        errorMessage = null;
+        sending = true;
+
+        try
+        {
+            var result = await AuthApi.Register(regRequest);
+
+            if (!result.Status)
+            {
+                errorMessage = result.Message ?? "Не удалось зарегистрироваться.";
+                return;
+            }
+
+            Navigation.NavigateTo("login");
+        }
+        catch (HttpRequestException)
+        {
+            errorMessage = "Не удалось подключиться к серверу.";
+        }
+        catch (Exception)
+        {
+            errorMessage = "Не удалось выполнить регистрацию. Попробуйте ещё раз.";
+        }
+        finally
+        {
+            sending = false;
+        }
+    }
+}

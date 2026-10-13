@@ -2,6 +2,8 @@
 @using System.Text.Json
 @implements IDisposable
 @inject OffersApiClient OffersApi
+@inject CurrentUser CurrentUser
+@inject NavigationManager Navigation
 
 <PageTitle>Предложения</PageTitle>
 
@@ -91,7 +93,16 @@
     private string? selectedCategory;
     private LoadState state = LoadState.Loading;
 
-    protected override Task OnInitializedAsync() => LoadOffersAsync();
+    protected override Task OnInitializedAsync()
+    {
+        if (!CurrentUser.IsAuthorized)
+        {
+            Navigation.NavigateTo("login");
+            return Task.CompletedTask;
+        }
+
+        return LoadOffersAsync();
+    }
 
     private async Task LoadOffersAsync()
     {

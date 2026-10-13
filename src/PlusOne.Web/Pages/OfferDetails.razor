@@ -3,6 +3,8 @@
 @implements IDisposable
 @inject OffersApiClient OffersApi
 @inject IJSRuntime JS
+@inject CurrentUser CurrentUser
+@inject NavigationManager Navigation
 
 <PageTitle>@(offer?.Title ?? "Предложение") — Plus One</PageTitle>
 
@@ -97,7 +99,16 @@
         _ => "Источник не указан"
     };
 
-    protected override Task OnParametersSetAsync() => LoadOfferAsync();
+    protected override Task OnParametersSetAsync()
+    {
+        if (!CurrentUser.IsAuthorized)
+        {
+            Navigation.NavigateTo("login");
+            return Task.CompletedTask;
+        }
+
+        return LoadOfferAsync();
+    }
 
     private async Task LoadOfferAsync()
     {

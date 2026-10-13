@@ -1,4 +1,8 @@
-﻿<div class="top-row">
+﻿@implements IDisposable
+@inject CurrentUser CurrentUser
+@inject NavigationManager Navigation
+
+<div class="top-row">
     <a class="navbar-brand" href="" aria-label="Plus One — главная">
         <img src="images/plus-one-logo-light.png" alt="" />
     </a>
@@ -20,12 +24,49 @@
                 Главная
             </NavLink>
         </div>
-        <div class="nav-item">
-            <NavLink class="nav-link" href="offers" @onclick="CloseNavMenu">
-                <span class="nav-icon nav-icon--offers" aria-hidden="true"></span>
-                Предложения
-            </NavLink>
-        </div>
+        @if (CurrentUser.IsAuthorized)
+        {
+            <div class="nav-item">
+                <NavLink class="nav-link" href="offers" @onclick="CloseNavMenu">
+                    <span class="nav-icon nav-icon--offers" aria-hidden="true"></span>
+                    Предложения
+                </NavLink>
+            </div>
+        }
+        @if (CurrentUser.IsAdmin)
+        {
+            <div class="nav-item">
+                <NavLink class="nav-link" href="admin/offers" @onclick="CloseNavMenu">
+                    <span class="nav-icon nav-icon--admin" aria-hidden="true"></span>
+                    Управление
+                </NavLink>
+            </div>
+        }
+
+        @if (CurrentUser.IsAuthorized)
+        {
+            <div class="nav-item nav-item--user">
+                <span class="nav-user">@CurrentUser.User!.UserName</span>
+            </div>
+            <div class="nav-item">
+                <button type="button" class="nav-link nav-link--button" @onclick="Logout">
+                    Выйти
+                </button>
+            </div>
+        }
+        else
+        {
+            <div class="nav-item">
+                <NavLink class="nav-link" href="login" @onclick="CloseNavMenu">
+                    Войти
+                </NavLink>
+            </div>
+            <div class="nav-item">
+                <NavLink class="nav-link" href="registration" @onclick="CloseNavMenu">
+                    Регистрация
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 
@@ -34,7 +75,24 @@
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+    protected override void OnInitialized()
+    {
+        CurrentUser.Changed += StateHasChanged;
+    }
+
     private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
 
     private void CloseNavMenu() => collapseNavMenu = true;
+
+    private void Logout()
+    {
+        CurrentUser.Logout();
+        CloseNavMenu();
+        Navigation.NavigateTo("login");
+    }
+
+    public void Dispose()
+    {
+        CurrentUser.Changed -= StateHasChanged;
+    }
 }

@@ -8,6 +8,8 @@ public sealed class PlusOneDbContext(DbContextOptions<PlusOneDbContext> options)
     : DbContext(options)
 {
     public DbSet<Offer> Offers => Set<Offer>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Role> Roles => Set<Role>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,6 +25,25 @@ public sealed class PlusOneDbContext(DbContextOptions<PlusOneDbContext> options)
         offer.Property(item => item.SourceUrl).HasMaxLength(500).IsRequired();
         offer.Property(item => item.PromoCode).HasMaxLength(50);
         offer.Property(item => item.RedemptionInstructions).HasMaxLength(500);
+
+        var role = modelBuilder.Entity<Role>();
+
+        role.ToTable("Roles");
+        role.HasKey(item => item.Id);
+        role.Property(item => item.Name).HasMaxLength(30).IsRequired();
+
+        var user = modelBuilder.Entity<User>();
+
+        user.ToTable("Users");
+        user.HasKey(item => item.Id);
+        user.Property(item => item.UserName).HasMaxLength(80).IsRequired();
+        user.Property(item => item.Login).HasMaxLength(50).IsRequired();
+        user.Property(item => item.Password).HasMaxLength(100).IsRequired();
+        user.HasIndex(item => item.Login).IsUnique();
+        user.HasOne(item => item.Role)
+            .WithMany()
+            .HasForeignKey(item => item.RoleId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         offer.HasData(
             new Offer

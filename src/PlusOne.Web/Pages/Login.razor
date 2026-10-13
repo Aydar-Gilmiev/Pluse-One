@@ -1,0 +1,75 @@
+@page "/login"
+@inject AuthApiClient AuthApi
+@inject CurrentUser CurrentUser
+@inject NavigationManager Navigation
+
+<PageTitle>Вход — Plus One</PageTitle>
+
+<section class="auth-page">
+    <div class="auth-card">
+        <p class="auth-card__eyebrow">Plus One</p>
+        <h1>Вход</h1>
+        <p class="auth-card__text">Войдите, чтобы продолжить работу с приложением.</p>
+
+        <div class="auth-field">
+            <label for="login">Логин</label>
+            <input id="login" autocomplete="username" @bind="authRequest.Login" @bind:event="oninput" />
+        </div>
+
+        <div class="auth-field">
+            <label for="password">Пароль</label>
+            <input id="password" type="password" autocomplete="current-password" @bind="authRequest.Password" @bind:event="oninput" />
+        </div>
+
+        <button type="button" class="auth-button" @onclick="Authorize" disabled="@sending">
+            @(sending ? "Проверяем…" : "Войти")
+        </button>
+
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <p class="auth-error" role="alert">@errorMessage</p>
+        }
+
+        <p class="auth-card__footer">
+            Нет аккаунта? <a href="registration">Зарегистрироваться</a>
+        </p>
+    </div>
+</section>
+
+@code {
+    private AuthRequest authRequest = new();
+    private string? errorMessage;
+    private bool sending;
+
+    private async Task Authorize()
+    {
+        errorMessage = null;
+        sending = true;
+
+        try
+        {
+            var result = await AuthApi.Authorize(authRequest);
+
+            if (!result.Status || result.Data is null)
+            {
+                errorMessage = result.Message ?? "Неверный логин или пароль.";
+                return;
+            }
+
+            CurrentUser.SetUser(result.Data);
+            Navigation.NavigateTo(result.Data.Role == "Admin" ? "admin/offers" : "offers");
+        }
+        catch (HttpRequestException)
+        {
+            errorMessage = "Не удалось подключиться к серверу.";
+        }
+        catch (Exception)
+        {
+            errorMessage = "Не удалось выполнить вход. Попробуйте ещё раз.";
+        }
+        finally
+        {
+            sending = false;
+        }
+    }
+}
