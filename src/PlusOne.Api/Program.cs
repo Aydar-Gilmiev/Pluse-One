@@ -12,7 +12,8 @@ builder.Services.AddSwaggerGen();
 var databaseConnection = builder.Configuration.GetConnectionString("PlusOneDatabase")
     ?? throw new InvalidOperationException("Connection string 'PlusOneDatabase' is not configured.");
 builder.Services.AddDbContext<PlusOneDbContext>(options =>
-    options.UseSqlite(databaseConnection));
+    options.UseSqlite(databaseConnection)
+        .AddInterceptors(new SqliteFoldFunctionInterceptor()));
 builder.Services.AddScoped<IOfferRepository, SqliteOfferRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOfferManagementService, OfferManagementService>();

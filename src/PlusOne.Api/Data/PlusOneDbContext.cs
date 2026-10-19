@@ -13,6 +13,10 @@ public sealed class PlusOneDbContext(DbContextOptions<PlusOneDbContext> options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder
+            .HasDbFunction(typeof(SqliteText).GetMethod(nameof(SqliteText.Fold), [typeof(string)])!)
+            .HasName("fold_text");
+
         var offer = modelBuilder.Entity<Offer>();
 
         offer.ToTable("Offers");

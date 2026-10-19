@@ -37,10 +37,20 @@ public sealed class SqliteOfferRepository(PlusOneDbContext database) : IOfferRep
 
         if (!string.IsNullOrWhiteSpace(search))
         {
-            var pattern = $"%{search.Trim()}%";
-            query = query.Where(offer =>
-                EF.Functions.Like(offer.Title, pattern) ||
-                EF.Functions.Like(offer.CompanyName, pattern));
+            var terms = search
+                .Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(SqliteText.Fold)
+                .Where(term => term.Length > 0)
+                .Distinct(StringComparer.Ordinal)
+                .ToArray();
+
+            foreach (var term in terms)
+            {
+                var current = term;
+                query = query.Where(offer =>
+                    SqliteText.Fold(offer.Title).Contains(current) ||
+                    SqliteText.Fold(offer.CompanyName).Contains(current));
+            }
         }
 
         return await query

@@ -56,10 +56,11 @@
 }
 
 .admin-search input,
-.offer-field input,
-.offer-field select,
-.offer-field textarea {
+.offer-field ::deep input,
+.offer-field ::deep select,
+.offer-field ::deep textarea {
     width: 100%;
+    box-sizing: border-box;
     min-height: 2.75rem;
     padding: .7rem .875rem;
     border: 1px solid #d9dce6;
@@ -67,6 +68,8 @@
     background: #fff;
     color: #171a2c;
     font: inherit;
+    line-height: 1.4;
+    transition: border-color 120ms ease, outline-color 120ms ease;
 }
 
 .admin-search input {
@@ -74,11 +77,27 @@
 }
 
 .admin-search input:focus,
-.offer-field input:focus,
-.offer-field select:focus,
-.offer-field textarea:focus {
+.offer-field ::deep input:focus,
+.offer-field ::deep select:focus,
+.offer-field ::deep textarea:focus {
     border-color: #91b929;
     outline: 3px solid rgb(202 255 74 / 30%);
+}
+
+.offer-field ::deep input::placeholder,
+.offer-field ::deep textarea::placeholder {
+    color: #8b90a3;
+}
+
+.offer-field ::deep select {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23656a7d' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 7.5 10 12.5 15 7.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .8rem center;
+    background-size: 1.1rem;
+    cursor: pointer;
 }
 
 .offer-editor {
@@ -112,7 +131,7 @@
     grid-column: 1 / -1;
 }
 
-.offer-field textarea {
+.offer-field ::deep textarea {
     min-height: 6.5rem;
     resize: vertical;
 }
@@ -122,6 +141,11 @@
 .offer-editor__error {
     color: #a13b2c;
     font-size: .8125rem;
+}
+
+.offer-field ::deep .validation-message {
+    display: block;
+    margin-top: .35rem;
 }
 
 .offer-editor__validation {
@@ -369,7 +393,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .admin-button {
+    .admin-button,
+    .admin-search input,
+    .offer-field ::deep input,
+    .offer-field ::deep select,
+    .offer-field ::deep textarea {
         transition: none;
     }
 }
