@@ -25,6 +25,7 @@
                    type="search"
                    placeholder="Название или компания"
                    @bind="search"
+                   @bind:event="oninput"
                    autocomplete="off" />
             <button type="submit" class="admin-button admin-button--dark">Найти</button>
             @if (!string.IsNullOrWhiteSpace(search))
